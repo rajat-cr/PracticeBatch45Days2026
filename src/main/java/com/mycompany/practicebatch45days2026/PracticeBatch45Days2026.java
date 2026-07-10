@@ -13,7 +13,7 @@ public class PracticeBatch45Days2026 {
     public static void main(String[] args) {
         System.out.println("Hello World!");
     
-    LoginScreen  obj = new LoginScreen();
+    PracticeScreen  obj = new PracticeScreen();
     obj.setVisible(true);
     }
 }

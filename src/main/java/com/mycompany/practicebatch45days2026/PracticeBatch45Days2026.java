@@ -4,6 +4,8 @@
 
 package com.mycompany.practicebatch45days2026;
 
+import java.sql.Connection;
+
 /**
  *
  * @author ASUS
@@ -11,7 +13,13 @@ package com.mycompany.practicebatch45days2026;
 public class PracticeBatch45Days2026 {
 
     public static void main(String[] args) {
-        System.out.println("Hello World!");
+        
+       Singleton con = Singleton.Display();
+       if(con!=null){
+            System.out.println("Database Conntected");
+       }else{
+        System.out.println("Database not connected");}
+       
     
     PracticeScreen  obj = new PracticeScreen();
     obj.setVisible(true);

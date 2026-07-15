@@ -13,6 +13,8 @@ import java.awt.Color;
  */
 public class PracticeScreen extends javax.swing.JFrame {
     
+   
+    
     private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(PracticeScreen.class.getName());
 
     /**
@@ -20,6 +22,14 @@ public class PracticeScreen extends javax.swing.JFrame {
      */
     public PracticeScreen() {
         initComponents();
+        
+          HomeScreen obj = new HomeScreen();
+        
+        dashboardAllScreen.removeAll();
+        dashboardAllScreen.setLayout(new BorderLayout());
+        dashboardAllScreen.add(obj,BorderLayout.CENTER);
+        dashboardAllScreen.revalidate();
+        dashboardAllScreen.repaint();
     }
 
     /**

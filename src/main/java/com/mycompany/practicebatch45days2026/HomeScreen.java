@@ -8,6 +8,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+
 import java.util.ArrayList;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
@@ -18,54 +19,54 @@ import javax.swing.table.DefaultTableModel;
  */
 public class HomeScreen extends javax.swing.JPanel {
  Singleton conn = Singleton.Display();
- 
- ArrayList<StudentModel> studentList = new ArrayList<>();
+ ArrayList<StudentModel> arrayList = new ArrayList<>();
     /**
      * Creates new form HomeScreen
      */
     public HomeScreen() {
         initComponents();
-        getTable();
+        getStudent();
     }
+    public void getStudent(){
     
-    void getTable() {
         try{
-            
-            String header[] = {"id","Name","Roll No."};
-        
-    DefaultTableModel model = new DefaultTableModel(null, header);
-    studentTable.setModel(model);
-    model.setRowCount(0);
-    
-    String query = "SELECT * from student";
-    Statement obj = conn.conn.createStatement();
-    ResultSet result = obj.executeQuery(query);
-    studentList.clear();
-    while(result.next()){
-        studentList.add(
-        new StudentModel(
-                result.getInt("id"),
-                result.getString("name"),
-                result.getString("rollNo")
-        ));
-}
+         String[] header = {"id","Name","Roll No"};
+         
+         DefaultTableModel model = new DefaultTableModel(null, header);
+         studentTable.setModel(model);
+         model.setRowCount(0);
+         
+         String query = "SELECT * FROM student";
+         Statement stm = conn.conn.createStatement();
+         ResultSet result = stm.executeQuery(query);
+         arrayList.clear();
+         while(result.next()){
+             
+             arrayList.add(new StudentModel(result.getInt("id"),
+                     result.getString("name"),
+                     result.getString("rollNo"))
+             );
+         }
+         
         Object[] row = new Object[3];
-        for(StudentModel data : studentList){
-            row[0] = data.getId();
-            row[1] = data.getName();
-            row[2] = data.getRollNo();
-            model.addRow(row);
-                    
+        for (StudentModel std : arrayList){
+            
+            row[0] = std.getId();
+            row[1] = std.getName();
+            row[2] = std.getRollNo();
+              model.addRow(row);
         }
-   
-    
-    
+      
+       
+      
+         
+            
         }catch(Exception ex){
-            System.out.println("Check Get Exception of student: "+ex);
+            System.out.println("Check Exceptrion of Student get Data: "+ex);
         }
-    
-    
     }
+    
+   
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -84,7 +85,7 @@ public class HomeScreen extends javax.swing.JPanel {
         etRollNo = new javax.swing.JTextField();
         jLabel3 = new javax.swing.JLabel();
         jButton2 = new javax.swing.JButton();
-        jScrollPane1 = new javax.swing.JScrollPane();
+        jScrollPane2 = new javax.swing.JScrollPane();
         studentTable = new javax.swing.JTable();
 
         setPreferredSize(new java.awt.Dimension(860, 610));
@@ -145,7 +146,7 @@ public class HomeScreen extends javax.swing.JPanel {
                 .addComponent(etRollNo, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(28, Short.MAX_VALUE))
+                .addContainerGap(137, Short.MAX_VALUE))
         );
 
         studentTable.setModel(new javax.swing.table.DefaultTableModel(
@@ -159,7 +160,7 @@ public class HomeScreen extends javax.swing.JPanel {
                 "Title 1", "Title 2", "Title 3", "Title 4"
             }
         ));
-        jScrollPane1.setViewportView(studentTable);
+        jScrollPane2.setViewportView(studentTable);
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -167,16 +168,16 @@ public class HomeScreen extends javax.swing.JPanel {
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 18, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 470, Short.MAX_VALUE)
+                .addContainerGap())
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 610, Short.MAX_VALUE)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(0, 0, Short.MAX_VALUE))
-            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 610, Short.MAX_VALUE)
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
@@ -206,8 +207,9 @@ public class HomeScreen extends javax.swing.JPanel {
                         
                         
                         if(ps.executeUpdate() > 0){
+                            getStudent();
                         JOptionPane.showMessageDialog(this, "Data Inserted Successfully");
-                          getTable();
+                         
                         }
         
                     
@@ -229,7 +231,7 @@ public class HomeScreen extends javax.swing.JPanel {
     private javax.swing.JLabel jLabel3;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
-    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JTable studentTable;
     // End of variables declaration//GEN-END:variables
 }

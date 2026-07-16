@@ -8,27 +8,29 @@ package com.mycompany.practicebatch45days2026;
  *
  * @author ASUS
  */
-public class StudentModel {
-    int id;
-    String name;
-    String rollNo;
-    
-    StudentModel(int id, String name, String rollNo){
-        this.id = id;
-        this.name = name;
-        this.rollNo = rollNo;
-    }
-    
-    public int getId(){
-    return id;
-    }
-    
-    public String getName(){
-    return name;
-          }
-    
-    public String getRollNo(){
-    return rollNo;
-    }
-    
+public class StudentModel{
+private int id;
+private String name;
+private String rollNo;
+
+ StudentModel(int id,String name, String rollNo){
+   this.id = id;
+   this.name = name;
+   this.rollNo = rollNo;
+ }
+ 
+ public int getId(){
+ return id;
+ }
+ 
+ public String getName(){
+ return name;
+ }
+ 
+ public String getRollNo(){
+  return rollNo;
+ }
+
+
+
 }

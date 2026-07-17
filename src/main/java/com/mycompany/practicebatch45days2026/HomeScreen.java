@@ -20,6 +20,8 @@ import javax.swing.table.DefaultTableModel;
 public class HomeScreen extends javax.swing.JPanel {
  Singleton conn = Singleton.Display();
  ArrayList<StudentModel> arrayList = new ArrayList<>();
+ 
+ int studentId = 0;
     /**
      * Creates new form HomeScreen
      */
@@ -160,6 +162,11 @@ public class HomeScreen extends javax.swing.JPanel {
                 "Title 1", "Title 2", "Title 3", "Title 4"
             }
         ));
+        studentTable.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                studentTableMouseClicked(evt);
+            }
+        });
         jScrollPane2.setViewportView(studentTable);
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
@@ -200,6 +207,8 @@ public class HomeScreen extends javax.swing.JPanel {
                     JOptionPane.showMessageDialog(this, "Enter Your Name");
              }else{
                     try{
+                        
+                        if(studentId == 0){
                         String insert = "INSERT INTO student(name, rollNo)VALUES(?,?)";
                         PreparedStatement ps = conn.conn.prepareStatement(insert);
                         ps.setString(1, etName.getText());
@@ -211,6 +220,21 @@ public class HomeScreen extends javax.swing.JPanel {
                         JOptionPane.showMessageDialog(this, "Data Inserted Successfully");
                          
                         }
+                        }else{
+                          String update = "UPDATE student SET name=?, rollNo = ? WHERE id = ?";
+                          
+                          PreparedStatement pre = conn.conn.prepareCall(update);
+                          pre.setString(1,etName.getText());
+                          pre.setString(2,etRollNo.getText());
+                          pre.setInt(3, studentId);
+                          
+                          if(pre.executeUpdate() > 0){
+                          JOptionPane.showMessageDialog(this, "Data Updated Successfully");
+                          getStudent();
+                          }
+                          
+                        
+                        }
         
                     
                     }catch(Exception ex){
@@ -220,6 +244,38 @@ public class HomeScreen extends javax.swing.JPanel {
                     
                 }
     }//GEN-LAST:event_jButton2ActionPerformed
+
+    private void studentTableMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_studentTableMouseClicked
+        // TODO add your handling code here:
+        try{
+      int row = studentTable.getSelectedRow();
+      System.out.println("Check Selected Row: "+row);
+      Object stdId = studentTable.getValueAt(row, 0);
+      int studentId = Integer.parseInt(stdId.toString());
+      
+      this.studentId = studentId;
+       System.out.println("Check Selected Student Id: "+studentId);
+       
+       String getSingData = "SELECT * FROM student WHERE id=?";
+       
+   
+         PreparedStatement pre = conn.conn.prepareCall(getSingData);
+         pre.setInt(1, studentId);
+         
+         ResultSet result = pre.executeQuery();
+
+         if(result.next()){
+           etName.setText(result.getString("name"));
+           etRollNo.setText(result.getString("rollNo"));
+         }else{
+           JOptionPane.showMessageDialog(this,"Student Not Found!");
+         }
+        }catch(Exception ex){
+            System.out.println("Check Single Data Exception: "+ex);
+        }
+        
+     
+    }//GEN-LAST:event_studentTableMouseClicked
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
